@@ -1,0 +1,42 @@
+experiment:
+  name: baseline_128
+  seed: 42
+
+data:
+  root: .
+  train_csv: data/processed/train.csv
+  val_csv: data/processed/val.csv
+  test_csv: data/processed/test.csv
+  image_size: 128
+
+augmentation:
+  horizontal_flip: 0.5       # probability, shared by input and target
+  rotation: 0.0              # maximum absolute degrees; shared
+  crop_scale_min: 0.9        # retained fraction of short edge; shared
+  brightness: 0.1            # factor sampled from [1-value, 1+value]
+  contrast: 0.1
+  saturation: 0.1
+  blur: 0.1                 # probability of a slight Gaussian blur
+  noise: 0.01               # standard deviation in [0,1] input space
+
+model:
+  base_channels: 32
+  channel_multipliers: [1, 2, 4, 8]
+  condition_channels: 16     # condition encoder base width
+  input_channels: 3         # RGB conditioning only in this milestone
+
+diffusion:
+  timesteps: 1000
+  beta_start: 0.0001
+  beta_end: 0.02
+
+training:
+  batch_size: 4
+  epochs: 100
+  learning_rate: 0.0002
+  weight_decay: 0.0001
+  num_workers: 0            # portable default for macOS/MPS
+  grad_clip: 1.0
+  save_every: 5
+  sample_every: 5
+  num_samples: 4

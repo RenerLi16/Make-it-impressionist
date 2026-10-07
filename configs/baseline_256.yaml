@@ -1,0 +1,38 @@
+# Start at 128px; 256px requires substantially more activation memory.
+experiment:
+  name: baseline_256
+  seed: 42
+data:
+  root: .
+  train_csv: data/processed/train.csv
+  val_csv: data/processed/val.csv
+  test_csv: data/processed/test.csv
+  image_size: 256
+augmentation:
+  horizontal_flip: 0.5
+  rotation: 0.0
+  crop_scale_min: 0.9
+  brightness: 0.1
+  contrast: 0.1
+  saturation: 0.1
+  blur: 0.1
+  noise: 0.01
+model:
+  base_channels: 32
+  channel_multipliers: [1, 2, 4, 8]
+  condition_channels: 16
+  input_channels: 3
+diffusion:
+  timesteps: 1000
+  beta_start: 0.0001
+  beta_end: 0.02
+training:
+  batch_size: 1
+  epochs: 100
+  learning_rate: 0.0002
+  weight_decay: 0.0001
+  num_workers: 0
+  grad_clip: 1.0
+  save_every: 5
+  sample_every: 5
+  num_samples: 1
